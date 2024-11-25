@@ -71,7 +71,7 @@ class AuthenticationWrapper extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: getTameeniTheme(),
         navigatorKey: getIt<NavUtils>().navigatorKey,
-        home: const IdentityNumberScreen(),
+        home:  IdentityNumberScreen(),
       ),
     );
   }
