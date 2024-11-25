@@ -15,7 +15,7 @@ void main() async {
     DeviceOrientation.portraitUp,
   ]);
   runApp(
-    const Tameeni(),
+    const AuthenticationWrapper(),
   );
 }
 

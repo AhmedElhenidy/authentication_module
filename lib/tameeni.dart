@@ -15,8 +15,8 @@ import 'features/authentication_feature/presentation/providers/authentication_pr
 import 'features/authentication_feature/presentation/screens/identity_number_screen.dart';
 
 
-class Tameeni extends StatelessWidget {
-  const Tameeni({super.key});
+class AuthenticationWrapper extends StatelessWidget {
+  const AuthenticationWrapper({super.key});
 
   @override
   Widget build(BuildContext context) {
