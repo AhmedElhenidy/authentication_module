@@ -26,6 +26,7 @@ class PasswordScreen extends StatefulWidget {
 
 class _PasswordScreenState extends State<PasswordScreen> {
   bool _isSecure = true;
+  final passwordFormKey = GlobalKey<FormBuilderState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +34,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: FormBuilder(
-          key: context.read<AuthenticationProvider>().passwordFormKey,
+          key: passwordFormKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -89,18 +90,13 @@ class _PasswordScreenState extends State<PasswordScreen> {
       bottomSheet: Container(
         color: ColorManager.basicsWhite,
         margin: const EdgeInsets.only(bottom: 25, left: 16, right: 16),
-        child: Consumer<AuthenticationProvider>(
-          builder: (context, prov, _) {
-            return SolidButton(
-              text: 'Confirm'.tr(),
-              loading: prov.state == const ProviderState.loading(),
-              onPressed: () {
-                if (prov.passwordFormKey.currentState?.saveAndValidate() ??
-                    false) {
+        child: SolidButton(
+          text: 'Confirm'.tr(),
+          onPressed: () {
+            if (passwordFormKey.currentState?.saveAndValidate() ??
+                false) {
 
-                }
-              },
-            );
+            }
           },
         ),
       ),

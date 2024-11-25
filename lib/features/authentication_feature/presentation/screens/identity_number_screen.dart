@@ -19,8 +19,8 @@ import 'password_screen.dart';
 
 class IdentityNumberScreen extends StatelessWidget {
   final String? identityNumber;
-  const IdentityNumberScreen({this.identityNumber, super.key});
-
+   IdentityNumberScreen({this.identityNumber, super.key});
+  final identityFormKey = GlobalKey<FormBuilderState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +28,7 @@ class IdentityNumberScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: FormBuilder(
-          key: context.read<AuthenticationProvider>().identityFormKey,
+          key: identityFormKey,
           initialValue: {
             FormControllerKeys.idNumber: identityNumber,
           },
@@ -71,35 +71,25 @@ class IdentityNumberScreen extends StatelessWidget {
         child: SolidButton(
           text: 'Next'.tr(),
           onPressed: () {
-            if (context
-                    .read<AuthenticationProvider>()
-                    .identityFormKey
+            if (identityFormKey
                     .currentState
                     ?.saveAndValidate() ??
                 false) {
-              if (context
-                  .read<AuthenticationProvider>()
-                  .identityFormKey
+              if (identityFormKey
                   .currentState!
                   .value[FormControllerKeys.idNumber]
                   .toString()
                   .startsWith('7')) {
-                context
-                    .read<AuthenticationProvider>()
-                    .identityFormKey
+                identityFormKey
                     .currentState!
                     .fields[FormControllerKeys.idNumber]
                     ?.invalidate('system does not accept Company users'.tr());
-                context
-                    .read<AuthenticationProvider>()
-                    .identityFormKey
+              identityFormKey
                     .currentState!
                     .save();
               } else {
                 getIt<NavUtils>().push( PasswordScreen(
-                  identityNumber: context
-                      .read<AuthenticationProvider>()
-                      .identityFormKey
+                  identityNumber: identityFormKey
                       .currentState!
                       .value[FormControllerKeys.idNumber]
                       .toString(),
