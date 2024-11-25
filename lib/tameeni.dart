@@ -23,79 +23,55 @@ class AuthenticationWrapper extends StatelessWidget {
     //
     //* EasyLocalization
     //
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<AuthenticationProvider>(
-          create: (_) => AuthenticationProvider(),
-        ),
-      ],
-      child: EasyLocalization(
-        supportedLocales: [
-          LanguageManager.arabicLocal,
-          LanguageManager.englishLocal,
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      minTextAdapt: true,
+      useInheritedMediaQuery: true,
+      enableScaleWH: () {
+        if (ScreenUtil().deviceType(context) == DeviceType.mobile) {
+          return false;
+        }
+        return true;
+      },
+      fontSizeResolver: (fontSize, instance) {
+        double aspectRatio =
+            ScreenUtil().screenWidth / ScreenUtil().screenHeight;
+        if (aspectRatio > 1.5) {
+          // For wider screens (e.g., foldable devices), reduce the font size slightly
+          return fontSize * 0.95;
+        } else if (ScreenUtil().isBiggerThanMobileScreen) {
+          return fontSize * 1.5;
+        } else {
+          // For narrower screens, keep the font size as is or adjust as needed
+          return fontSize.toDouble();
+        }
+      },
+
+      // splitScreenMode: true,
+      //
+      //* MaterialApp
+      //
+      builder: (context, child) => MaterialApp(
+        localizationsDelegates: [
+          ...context.localizationDelegates,
+          FormBuilderLocalizations.delegate,
         ],
-        path: LanguageManager.assetsPathLocalisations,
-        fallbackLocale: LanguageManager.arabicLocal,
-        saveLocale: true,
-        //
-        //* OverlaySupport
-        //
-        child: OverlaySupport.global(
-          //
-          //* ScreenUtilInit
-          //
-          child: ScreenUtilInit(
-            designSize: const Size(375, 812),
-            minTextAdapt: true,
-            useInheritedMediaQuery: true,
-            enableScaleWH: () {
-              if (ScreenUtil().deviceType(context) == DeviceType.mobile) {
-                return false;
-              }
-              return true;
-            },
-            fontSizeResolver: (fontSize, instance) {
-              double aspectRatio =
-                  ScreenUtil().screenWidth / ScreenUtil().screenHeight;
-              if (aspectRatio > 1.5) {
-                // For wider screens (e.g., foldable devices), reduce the font size slightly
-                return fontSize * 0.95;
-              } else if (ScreenUtil().isBiggerThanMobileScreen) {
-                return fontSize * 1.5;
-              } else {
-                // For narrower screens, keep the font size as is or adjust as needed
-                return fontSize.toDouble();
-              }
-            },
+        builder: (context, child) {
+          AppLocaleInfo.instance.setLocale(context.locale);
 
-            // splitScreenMode: true,
-            //
-            //* MaterialApp
-            //
-            builder: (context, child) => MaterialApp(
-              localizationsDelegates: [
-                ...context.localizationDelegates,
-                FormBuilderLocalizations.delegate,
-              ],
-              builder: (context, child) {
-                AppLocaleInfo.instance.setLocale(context.locale);
-
-                return MediaQuery(
-                  data: MediaQuery.of(context)
-                      .copyWith(textScaler: TextScaler.noScaling),
-                  child: AppLayout(child: child!),
-                );
-              },
-              supportedLocales: context.supportedLocales,
-              locale: context.locale,
-              title: 'Tameeni',
-              debugShowCheckedModeBanner: false,
-              theme: getTameeniTheme(),
-              navigatorKey: getIt<NavUtils>().navigatorKey,
-              home: const IdentityNumberScreen(),
-            ),
-          ),
-        ),
+          return MediaQuery(
+            data: MediaQuery.of(context)
+                .copyWith(textScaler: TextScaler.noScaling),
+            child: AppLayout(child: child!),
+          );
+        },
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        title: 'Tameeni23',
+        debugShowCheckedModeBanner: false,
+        theme: getTameeniTheme(),
+        navigatorKey: getIt<NavUtils>().navigatorKey,
+        home: const IdentityNumberScreen(),
       ),
     );
   }
