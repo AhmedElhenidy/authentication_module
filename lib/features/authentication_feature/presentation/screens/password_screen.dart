@@ -77,12 +77,12 @@ class _PasswordScreenState extends State<PasswordScreen> {
                 ),
               ),
               24.verticalSpace,
-              TextButtonWithArrow(
-                onPressed: () {
-
-                },
-                text: 'Reset Password with OTP'.tr(),
-              ),
+              // TextButtonWithArrow(
+              //   onPressed: () {
+              //
+              //   },
+              //   text: 'Reset Password with OTP'.tr(),
+              // ),
             ],
           ),
         ),
